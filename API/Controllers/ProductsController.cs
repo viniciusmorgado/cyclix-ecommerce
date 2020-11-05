@@ -16,6 +16,6 @@ namespace API.Controllers
         public string GetProduct(int id)
         {
             return "Single Product";
-    }
+        }
     }
 }
