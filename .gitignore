@@ -516,6 +516,7 @@ nunit-*.xml
 
 # Build Results of an ATL Project
 
+
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
 
