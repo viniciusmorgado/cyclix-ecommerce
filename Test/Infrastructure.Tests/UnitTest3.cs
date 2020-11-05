@@ -1,12 +1,12 @@
 using System;
 using Xunit;
 
-namespace Tests
+namespace Test
 {
-    public class UnitTest2
+    public class UnitTest3
     {
         [Fact]
-        public void Test2()
+        public void Test3()
         {
             // example
         }
