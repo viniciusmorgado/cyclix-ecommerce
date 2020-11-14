@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Core.Models
+namespace Core.Models.Repositories
 {
     public interface IProductRepository
     {
