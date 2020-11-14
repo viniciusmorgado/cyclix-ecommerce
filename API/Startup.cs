@@ -1,6 +1,6 @@
-using Core.Models;
-using Core.Models.Repositories;
+using Core.Models.IRepositories;
 using Infrastructure.Data;
+using Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
