@@ -1,20 +1,28 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Models;
-using Core.Models.Repositories;
+using Core.Models.IRepositories;
+using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Data
+namespace Infrastructure.Data.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        public Task<Product> GetProductByIdAsync(int Id)
+        private readonly StoreContext context;
+
+        public ProductRepository(StoreContext context)
         {
-            throw new System.NotImplementedException();
+            this.context = context;
         }
 
-        public Task<IReadOnlyList<Product>> GetProductListAsync()
+        public async Task<Product> GetProductByIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            return await context.Products.FindAsync(id);
+        }
+
+        public async Task<IReadOnlyList<Product>> GetProductListAsync()
+        {
+            return await context.Products.ToListAsync();
         }
     }
 }
