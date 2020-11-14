@@ -1,4 +1,5 @@
 using Core.Models;
+using Core.Models.Repositories;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,7 @@ namespace API
 {
     public class Startup
     {
+        // Startup constructor
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -22,9 +24,9 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddDbContext<StoreContext>(x 
                 => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<IProductRepository, ProductRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
