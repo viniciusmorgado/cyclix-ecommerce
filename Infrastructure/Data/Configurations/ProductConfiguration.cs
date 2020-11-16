@@ -12,7 +12,7 @@ namespace Infrastructure.Data.Config
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.Property(prop => prop.Id).IsRequired();
-            builder.Property(prop => prop.Name).HasMaxLength(100);
+            builder.Property(prop => prop.Name).IsRequired().HasMaxLength(100);
         }
     }
 }
