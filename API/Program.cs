@@ -23,6 +23,8 @@ namespace API
                     var context = services.GetRequiredService<StoreContext>();
                     // Apply pending migrations and create database in case they doen´t exist.
                     await context.Database.MigrateAsync();
+                    // Apply the initial data seed for database from json files through StoreContextSeed class.
+                    await StoreContextSeed.SeedAsync(context, loggerFactory);
                 }
                 catch (Exception ex)
                 {
