@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using System.Linq;
 using Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
@@ -26,7 +27,7 @@ namespace Infrastructure.Data
                     var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
 
                     // Para cada item serializado a partir do arquivo json armazenado em brands.
-                    foreach(var item in brands)
+                    foreach (var item in brands)
                     {
                         // Nosso context ira rastrear tudo que adicionarmos ao productbrand.
                         context.ProductBrand.Add(item);

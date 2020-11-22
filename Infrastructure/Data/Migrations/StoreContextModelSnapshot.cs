@@ -14,26 +14,41 @@ namespace Infrastructure.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("Core.Models.Product", b =>
+            modelBuilder.Entity("Core.Models.BaseEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BaseEntity");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("BaseEntity");
+                });
+
+            modelBuilder.Entity("Core.Models.Product", b =>
+                {
+                    b.HasBaseType("Core.Models.BaseEntity");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(180)")
-                        .HasMaxLength(180);
+                        .HasMaxLength(180)
+                        .HasColumnType("nvarchar(180)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PictureUrl")
                         .IsRequired()
@@ -48,43 +63,35 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("ProductTypeId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
                     b.HasIndex("ProductBrandId");
 
                     b.HasIndex("ProductTypeId");
 
-                    b.ToTable("Products");
+                    b.HasDiscriminator().HasValue("Product");
                 });
 
             modelBuilder.Entity("Core.Models.ProductBrand", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.HasBaseType("Core.Models.BaseEntity");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("ProductBrand_Name");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("ProductBrand");
+                    b.HasDiscriminator().HasValue("ProductBrand");
                 });
 
             modelBuilder.Entity("Core.Models.ProductType", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.HasBaseType("Core.Models.BaseEntity");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("ProductType_Name");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("ProductType");
+                    b.HasDiscriminator().HasValue("ProductType");
                 });
 
             modelBuilder.Entity("Core.Models.Product", b =>
@@ -100,6 +107,10 @@ namespace Infrastructure.Data.Migrations
                         .HasForeignKey("ProductTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ProductBrand");
+
+                    b.Navigation("ProductType");
                 });
 #pragma warning restore 612, 618
         }
